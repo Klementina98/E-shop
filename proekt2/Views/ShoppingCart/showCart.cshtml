@@ -1,0 +1,261 @@
+﻿@model IEnumerable<proekt.Models.ArtWorks>
+
+@{
+    ViewBag.Title = "showCart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section stripe{
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+
+        var stripe = Stripe('pk_test_1gduyZA4fDVoQtj5jEDu70h300YWoANZ95');
+        var elements = stripe.elements();
+        // Custom styling can be passed to options when creating an Element.
+       var style = {
+          base: {
+            color: '#32325d',
+            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+            fontSmoothing: 'antialiased',
+            fontSize: '16px',
+            '::placeholder': {
+              color: '#aab7c4'
+            }
+          },
+          invalid: {
+            color: '#fa755a',
+            iconColor: '#fa755a'
+          }
+        };
+
+        // Create an instance of the card Element.
+        var card = elements.create('card', {style: style});
+
+        // Add an instance of the card Element into the `card-element` <div>.
+        card.mount('#card-element');
+
+        // Create a token or display an error when the form is submitted.
+        var form = document.getElementById('payment-form');
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            stripe.createToken(card).then(function (result) {
+                if (result.error) {
+                    // Inform the customer that there was an error.
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+                } else {
+                    // Send the token to your server.
+                    stripeTokenHandler(result.token);
+                }
+            });
+            function stripeTokenHandler(token) {
+                // Insert the token ID into the form so it gets submitted to the server
+                var form = document.getElementById('payment-form');
+                var hiddenInput = document.createElement('input');
+                hiddenInput.setAttribute('type', 'hidden');
+                hiddenInput.setAttribute('name', 'stripeToken');
+                hiddenInput.setAttribute('value', token.id);
+                form.appendChild(hiddenInput);
+
+                // Submit the form
+                form.submit();
+            }
+
+
+
+        });
+
+    </script>
+
+}
+
+
+
+<style>
+    
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right !important;
+  font-size: 28px;
+  font-weight: bold;
+
+
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.form-div{
+    margin-top:40px
+}
+.StripeElement {
+  box-sizing: border-box;
+
+  height: 40px;
+
+  padding: 10px 12px;
+
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: white;
+
+  box-shadow: 0 1px 3px 0 #e6ebf1;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+  border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}
+    @@media only screen and (max-width: 600px) {
+
+        .test {
+            display: inline-block !important;
+        }
+    }
+</style>
+
+<div style="width:100%; min-height:500px">
+    <h1 class="text-center thumbnail" style="color:black;background-image:url(../../Scripts/images/image.png);background-position: center;background-repeat: no-repeat;background-size: cover; margin-top:25px">
+        @{if (Model == null)
+            {
+                <span>Your shopping cart is empty! Fill it up!</span>
+            }
+            else
+            {
+                <span>The following items are in your cart!</span>
+            }
+        }
+
+    </h1>
+
+    @if (Model != null)
+    {
+
+        foreach (var item in Model)
+        {
+
+            <div style="display:inline-flex;width:100%;background-image:url(../../Scripts/images/image.png);background-position: center;background-repeat: no-repeat;background-size: cover; margin-top:25px" class="thumbnail test">
+
+                <!--col-lg-3 col-md-6 col-xs-12-->
+                <div style="text-align:center">
+                    <img src="@Url.Content(item.img)" style="max-width: 400px; float:left; margin:25px">
+                </div>
+                <div class="thumbnail img-responsive transparent-bg" style="width:100%;text-align:center;padding-top: 18px;">
+                    <span class="text-info size">Model: <b>@item.name</b></span>
+                   
+                    <hr />
+                    <span class="text-info size">Year: @item.year</span>
+                    <hr />
+                    <span class="text-info size">Price: <b>@item.price</b> &euro;</span>
+                    <hr />
+                    @Html.ActionLink("Delete from Cart", "deleteFromCart", "ShoppingCart", new { id = item.Id }, new { @class = "btn btn-danger btn-lg" })
+                </div>
+            </div>
+        }
+    }
+
+
+    @{if (Model != null)
+        {
+            <h1 class="text-center thumbnail" style="color:white;background-color:rgb(0,0,0,0.5);margin-top:25px; display:inline-flex">
+                <span style="float:left !important">
+                    Total price: <b>
+                    @ViewBag.total &euro;
+                    @if(User.IsInRole("Admin") || User.IsInRole("User") || User.IsInRole("Guest")) { 
+                    <button class="btn btn-success btn-lg" id="myBtn">Buy now!</button>
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Buy now!", "Login", "Account", null, new { @class = "btn btn-success btn-lg" })
+                    }
+                    </b>
+                </span>
+            </h1>
+
+            <!-- The Modal -->
+            <div id="myModal" class="modal">
+
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    @Html.Partial("TestCheckout")
+                </div>
+
+            </div>
+
+        }
+
+    }
+</div>
+
+
+
+
+  
+
+    <script>
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("myBtn");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the button, open the modal
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>

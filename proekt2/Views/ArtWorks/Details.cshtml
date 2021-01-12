@@ -1,0 +1,66 @@
+﻿@model proekt.Models.ArtWorks
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+<style>
+    .transparent-bg {
+        background: rgb(211,211,211);
+    }
+
+    .size {
+        font-size: 17px;
+        margin: 0 0
+    }
+
+    hr {
+        border: 1px solid gray;
+        border-radius: 5px;
+        margin: 15px
+    }
+
+    @@media only screen and (max-width: 600px) {
+
+        .test {
+            display: inline-block !important;
+        }
+    }
+
+    .boxsizingBorder {
+        min-width: 100%
+    }
+</style>
+
+
+<div class="container">
+    <div style="display:inline-flex;width:100%;background-position: center;background-repeat: no-repeat;background-size: cover; margin-top:25px" class="thumbnail test transparent-bg">
+
+        <div style="text-align:center">
+            <img src="@Url.Content(Model.img)" style="max-width: 400px; float:left">
+            @{ if (@ViewBag.error != null)
+                            {
+                <a href="@Url.Action("Index", "ShoppingCart", new { id = Model.Id })" class="btn btn-success btn-lg disabled" style="margin-bottom:10px; margin-top:10px">Already in the cart</a> }
+                            else
+                            {
+                <a href="@Url.Action("Index", "ShoppingCart", new { id = Model.Id })" class="btn btn-default btn-lg" style="margin-bottom:10px; margin-top:10px">Add to cart</a> } }
+        </div>
+
+        <div class="thumbnail img-responsive transparent-bg" style="width:100%;text-align:center;padding-top: 18px;">
+            <span class="text-info size">ArtWork: <b>@Model.name</b></span>
+            <hr />
+            <span class="text-info size">Price: <b>@Model.price</b> &euro;</span>
+            <hr />
+            <span class="text-info size">Year: <b>@Model.year</b> </span>
+            <hr />
+            <span class="text-info size">Artist: <b>@Model.artist.name</b> </span>
+            <hr />
+
+            <a href="@Url.Action("Index")" class="btn btn-default">Back to list</a>
+            @if (User.IsInRole("Admin"))
+            {
+                <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-default">Edit ArtWork</a>}
+        </div>
+    </div>
+   

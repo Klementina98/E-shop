@@ -1,0 +1,45 @@
+﻿@model proekt.Models.Artist
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<style>
+    dt, h2, h3, h4, p {
+        color: aliceblue
+    }
+    .display-name {
+        color: aliceblue
+    }
+    
+</style>
+
+
+<h2>Details</h2>
+
+<div>
+    <h4>Artist</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Name:
+        </dt>
+
+        <dd class="display-name">
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            Country:
+        </dt>
+
+        <dd class="display-name">
+            @Html.DisplayFor(model => model.country)
+        </dd>
+
+    </dl>
+</div>
+<p >
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

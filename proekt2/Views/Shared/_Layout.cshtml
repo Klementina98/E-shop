@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body style="background-image:url(../../Scripts/images/WhistlersMother.jpg);background-position: center;background-repeat: no-repeat;background-size: cover;">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("ShopArtWorks", "Index", "ArtWorks", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("About", "Index", "Home")</li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Admin Settings<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Add Artist", "Create", "Artists")</li>
+                                <li>@Html.ActionLink("Add ArtWork", "Create", "ArtWorks")</li>
+                                <li>@Html.ActionLink("Add User To Role", "AddUserToRole", "Account")</li>
+                            </ul>
+                        </li>
+                    }
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="@Url.Action("showCart", "ShoppingCart")" class="btn-danger" style="color:white">
+                            <span class="glyphicon glyphicon-shopping-cart"></span> Shopping Cart
+                        </a>
+                    </li>
+                    @Html.Partial("_LoginPartial")
+
+                </ul>
+               
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer style="color:darkgray">
+            <p>&copy; @DateTime.Now.Year - ShopArtWorks</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    @RenderSection("stripe", required: false)
+</body>
+</html>

@@ -1,0 +1,123 @@
+﻿@model IEnumerable<proekt.Models.ArtWorks>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<style>
+    .img-responsive {
+        width: auto;
+        height: 250px;
+    }
+
+    .center-block {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .inline {
+        display: inline
+    }
+
+    .btn-danger {
+        margin: 5px;
+    }
+
+    .myLabel {
+        font-size: 17px;
+        color: dimgray;
+        border: 2px solid rgb(0, 0, 0);
+        border-radius: 7px;
+        padding: 5px;
+        margin: 5px;
+    }
+
+    .br {
+        border-radius: 9px;
+    }
+
+    .buttoncolor {
+        color: darkred;
+    }
+
+    div.row a {
+        color: white;
+        background-color: indianred;
+        border: none;
+    }
+
+    .tales {
+        width: 100%;
+    }
+
+
+    .my-font {
+        color: darkgray;
+        padding: 1em 0em 0.5em 0em
+    }
+
+    .my-dropdown {
+        font-size: 19px;
+        color: dimgray;
+        border: 2px solid rgb(0, 0, 0);
+        border-radius: 7px;
+        padding: 0.7em 8em 0.7em 1.5em;
+        background-color: rgb(245, 245, 245);
+        margin: 5px;
+    }
+
+    .label-font {
+        color: dimgray;
+        padding: 0.5em 0em 0.5em 0em
+    }
+
+</style>
+
+<div>
+    <h2 class="my-font">
+        Browse art prints, <br /> posters, framed art
+    </h2>
+    <div class="dropdown pull-right">
+        <a class="dropdown-toggle my-dropdown" data-toggle="dropdown" href="#">Sort by<span class="caret"></span></a>
+
+        <ul class="dropdown-menu">
+            <li>@Html.ActionLink("Artist", "Index", new { sortOrder = ViewBag.ArtistSortParm })</li>
+
+            <li>@Html.ActionLink("Price (Lowest)", "Index", new { sortOrder = ViewBag.PriceSortParm })</li>
+
+            <li>@Html.ActionLink("Price (Highest)", "Index", new { sortOrder = ViewBag.PriceDescSortParm })</li>
+
+        </ul>
+    </div>
+</div>
+<br /><br />
+
+<table class="table">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-3 col-md-6 col-xs-12 text-center ">
+                <div style="width:100%; margin-top:20px;  background: rgb(245,245,245)" class="table-bordered br">
+                    <div class="myLabel" style="">
+                        <label class="text-info" style="color:dimgrey">@item.name</label>
+                    </div>
+
+                    <div class="text-center ">
+                        <img src="@item.img" class="img-responsive inline " />
+                    </div>
+                    <label class="label-font">Artwork by: @item.artist.name</label>
+                    
+                    <label class="myLabel">Price: @item.price &euro;</label> <br />
+
+                    @Html.ActionLink("View", "Details", new { id = item.Id }, new { @class = "btn btn-danger " })
+                </div>
+
+            </div>}
+
+
+
+    </div>
+
+</table>

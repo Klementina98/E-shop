@@ -1,0 +1,55 @@
+﻿@model IEnumerable<proekt.Models.Artist>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<style>
+    .custom {
+        background-color: rgb(245, 245, 245);
+        padding: 20px
+    }
+</style>
+
+<div class="custom">
+    <p>
+        @Html.ActionLink("Enter New Artist", "Create")
+    </p>
+
+    <table class="table" id="artists">
+        <thead>
+            <tr>
+                <th>
+                    @Html.Label("Name")
+                </th>
+                <th>
+                    @Html.Label("Country")
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.country)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section scripts{
+<script>
+        $("#artists").DataTable();
+</script>
+    }

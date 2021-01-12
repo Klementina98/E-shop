@@ -1,0 +1,49 @@
+﻿@model proekt2.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<style>
+    .font{
+        color:rgb(235, 235, 235);
+        padding: 10px
+    }
+</style>
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal font", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <p style="color: rgb(235, 235, 235)">
+    We've worked hard to bring the best collection of prints from the world's most respected artists and institutions.
+    Browse some of our favourite categories or jump straight into the full collection to find the perfect piece.
+</p>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Register" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

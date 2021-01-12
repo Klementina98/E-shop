@@ -1,0 +1,69 @@
+﻿
+
+<style>
+    .form-div{
+        width:100%;
+        text-align:center;
+    }
+     margin {
+        margin-top:15px;
+    }
+    input{
+        display:inline-block;
+        margin:auto
+    }
+</style>
+
+<div class="form-div">
+    <form action="/Cart/Create" method="post" id="payment-form">
+        <h1 class="thumbnail label-info margin">Payment</h1>
+
+        <div class="form-group">
+            <label for="name">Firstname</label>
+            <input class="form-control" type="text" name="name" id="name" placeholder="ex. John Doe" />
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input class="form-control" type="email" name="email" id="email" placeholder="ex. john_doe@example.com" />
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone number</label>
+            <input class="form-control" type="tel" name="phone" id="phone" placeholder="ex. +(389) 7X XXX XXX" />
+        </div>
+
+        <div class="form-group">
+            <label for="street">Street address</label>
+            <input class="form-control" type="text" name="street" id="street" placeholder="ex. Street name No. " />
+        </div>
+
+        <div class="form-group">
+            <label for="price">Price</label>
+            <input class="form-control" type="text" name="price" id="price" readonly value="@ViewBag.total" />
+        </div>
+
+        <div class="form-group" style="max-width:280px; text-align:center; margin:auto">
+            <div style="width:100%">
+                <label for="card-element">
+                    Credit or debit card
+                </label>
+                <div id="card-element">
+                    <!-- A Stripe Element will be inserted here. -->
+                </div>
+            </div>
+        </div>
+
+            
+
+            <!-- Used to display form errors. -->
+            <div id="card-errors" role="alert"></div>
+
+
+        <!-- Used to display Element errors. -->
+        <div id="card-errors" role="alert"></div>
+
+
+        <button class="btn btn-success btn-lg" style="margin-top:10px;">Submit Payment</button>
+    </form>
+</div>

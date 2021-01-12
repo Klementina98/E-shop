@@ -1,0 +1,72 @@
+﻿@model proekt.Models.Artist
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<style>
+    .myLabel {
+        background-color: rgb(245, 245, 245);
+        padding: 15px
+           
+    }
+</style>
+
+<div class="myLabel">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+
+        <div class="form-horizontal">
+            <div class="myLabel">
+                <h4 style="color: dimgrey">
+                    Here you can add new artist whose artworks can be found in our online store
+                </h4>
+                <label>
+                    We've worked hard to bring the best collection of prints from the world's most respected artists and institutions. Browse some of our favourite categories or jump straight into the full collection to find the perfect piece.
+                   <br />
+                    <i><small>
+                        Instructions: In the first field enter the first name and the last name of the artist.
+                        In the second field enter the country where he/she originate from.
+                    </small></i>
+                </label>
+            </div>
+
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @*   @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" }) *@
+                @Html.Label("Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @*    @Html.LabelFor(model => model.country, htmlAttributes: new { @class = "control-label col-md-2" }) *@
+                @Html.Label("Country", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.country, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.country, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+    <br /> <br />
+<div>
+
+    @Html.ActionLink("List of Artists", "Index")
+</div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
